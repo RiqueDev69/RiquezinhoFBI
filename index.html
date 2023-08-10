@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Riquezinho FBI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .opcao {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .opcao button {
+            background-color: #fff;
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .opcao button:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .opcao input[type="radio"] {
+            display: none;
+        }
+
+        #mensagem {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        
+        #pergunta2, #mensagem {
+            display: none;
+        }
+
+        .piscar {
+            animation: piscar 1s infinite;
+        }
+
+        @keyframes piscar {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .backgroundRave {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: -1;
+            animation: backgroundRaveAnim 0.278s infinite;
+        }
+
+        @keyframes backgroundRaveAnim {
+            0%, 100% {
+                background-color: black;
+            }
+            25% {
+                background-color: blue;
+            }
+            50% {
+                background-color: white;
+            }
+            75% {
+                background-color: green;
+            }
+        }
+        
+        @keyframes backgroundPiscante {
+            0%, 100% {
+                background-color: black;
+            }
+            25% {
+                background-color: blue;
+            }
+            50% {
+                background-color: white;
+            }
+            75% {
+                background-color: green;
+            }
+        }
+        
+        .backgroundPiscante {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: -1;
+            animation: backgroundPiscante 0.278s infinite;
+        }
+
+        img {
+            height: 50vh;
+        }
+    </style>
+</head>
+<body>
+    <h1>FBI Riquezinho interrogatório</h1>
+    
+    <div id="pergunta1">
+        <p>Pergunta 1: Qual é a sua reação quando vê uma coisa boa em um sonho?</p>
+        <label class="opcao"><input type="radio" name="reacao" value="Eu amo"> <button onclick="selecionarOpcao('Eu amo')">Eu amo</button></label>
+        <label class="opcao"><input type="radio" name="reacao" value="Eu preciso"> <button onclick="selecionarOpcao('Eu preciso')">Eu preciso</button></label>
+        <label class="opcao"><input type="radio" name="reacao" value="Eu quero"> <button onclick="selecionarOpcao('Eu quero')">Eu quero</button></label>
+    </div>
+    
+    <div id="pergunta2">
+        <p>Pergunta 2: Qual é o seu animal favorito?</p>
+        <label class="opcao"><input type="radio" name="meme" value="Cobrona"> <button onclick="mostrarResultado('Cobrona')">Cobra</button></label>
+        <label class="opcao"><input type="radio" name="meme" value="Cavalão gostoso"> <button onclick="mostrarResultado('Cavalão gostoso')">Cavalo</button></label>
+        <label class="opcao"><input type="radio" name="meme" value="Minhoca"> <button onclick="mostrarResultado('Minhoca')">Minhoca</button></label>
+    </div>
+    
+    <p id="mensagem"></p>
+    <div class="backgroundRave"></div>
+    <img id="imgOne" src="one.gif" alt="Imagem One" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+    <div class="backgroundPiscante"></div>
+    <audio id="musica" src="musica.mp3" loop></audio>
+
+    <script>
+        var musica = document.getElementById('musica');
+        
+        function selecionarOpcao(opcao) {
+            var opcaoButton = document.querySelector(`button[onclick="selecionarOpcao('${opcao}')"]`);
+            opcaoButton.classList.add('piscar');
+            setTimeout(function() {
+                opcaoButton.classList.remove('piscar');
+                proximaPergunta();
+            }, 3000);
+        }
+
+        function proximaPergunta() {
+            document.getElementById('pergunta1').style.display = 'none';
+            document.getElementById('pergunta2').style.display = 'block';
+            document.getElementById('mensagem').style.display = 'block';
+        }
+
+        function mostrarResultado(meme) {
+            var memeButton = document.querySelector(`button[onclick="mostrarResultado('${meme}')"]`);
+            memeButton.classList.add('piscar');
+            setTimeout(function() {
+                memeButton.classList.remove('piscar');
+                document.getElementById('pergunta2').style.display = 'none';
+                var mensagemElement = document.getElementById('mensagem');
+                var memeValue = meme.replace(/\s+/g, '');
+                mensagemElement.textContent = `Agent, você quer um(a) "${meme}" dentro de você`;
+                mensagemElement.style.display = 'block';
+                startBackgroundPiscante();
+            }, 3000);
+        }
+
+        function startBackgroundPiscante() {
+            setTimeout(function() {
+                var backgroundPiscante = document.querySelector('.backgroundPiscante');
+                var imgOne = document.getElementById('imgOne');
+                backgroundPiscante.style.display = 'block';
+                backgroundPiscante.style.animation = 'backgroundPiscante 0.278s infinite';
+                imgOne.style.display = 'block'; // Esta linha exibe a imagem
+                setTimeout(function() {
+                    musica.play();
+                    var img = new Image();
+                    img.src = 'one2.gif'; // Substitua "nome-da-imagem.jpg" pelo nome da sua imagem
+                    img.style.display = 'block';
+                    img.style.margin = '0 auto';
+                    document.body.appendChild(img);
+                });
+            }, 3000); // Aguarda 3 segundos após a exibição da última mensagem
+        }
+
+    </script>
+</body>
+</html>
